@@ -1,0 +1,25 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title System Context diagram for Social Security Use Case
+
+Person(customer, "Social Security Benefit Claimant ", "A social security benefit claimant with a working relationship with an employer")
+Person(adminuser, "Social Security officer ", "A social security employee responsible for dealing with the benefit claimant")
+System(app, "Social Security System", "Allows Benefit claimant to upload documents and requestsing benefit status report")
+
+System_Ext(employer, "Employer", "Employer of Social Security Benefit Claimant")
+System_Ext(mail_system, "E-mail system", "External e-mail systems.")
+System_Ext(socialsecurity, "Social Security Backoffice", "Stores all of the information about the Benefit Claiment, its benefit, the documents etc,.")
+
+Rel(customer, app, "Uses (inc uploading documents to)")
+Rel(adminuser, app, "Uses (access data related with benefit claimant)")
+Rel_Back(customer, mail_system, "Sends e-mails to")
+Rel_Neighbor(socialsecurity, mail_system, "Sends e-mails", "SMTP")
+Rel(app, socialsecurity, "Uses")
+Rel(customer, employer, "Works for")
+
+@enduml

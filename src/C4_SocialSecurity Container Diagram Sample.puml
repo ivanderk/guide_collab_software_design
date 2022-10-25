@@ -1,0 +1,74 @@
+@startuml "socialsecurityapp"
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+LAYOUT_TOP_DOWN
+'LAYOUT_AS_SKETCH
+LAYOUT_WITH_LEGEND()
+
+title Container Diagram for Social Security Use Case
+
+Person_Ext(user, "Social Security Benefit Claimant")
+Person_Ext(adminuser, "Social Security officer")
+
+System_Boundary(c1, "Social Security System"){
+    
+    Container(mobile_app, "Mobile Application", "devon4X (Xamarin)", "Allows users to upload documents (pay-slips etc) and request status reports")
+
+    Container(web_app, "Service Layer", "devon4node", "Serivce Layer - back-end mobile application")
+
+    Container(web_app2, "Admin console", "devon4node", "Access to data for Social Security Officer")
+
+    Container(queue, "Kafka Queue", "Apache Kafka 1.1", "Mesasge streaming queue, serving as main backbone for information processing")
+
+    Container(reportgen, "JasperReports based Report Generator", "devon4j", "Reporting Service with with JasperReports 7.2.0")
+
+    Container(log, "Log", "Log Service", "Records log info from Kafka queue and stores into DB")
+
+    ContainerDb(log_db, "Log DB", "MongoDB 3.0.x", "Stores Log Info")
+
+    Container(processor, "Processor", "devon4j", "Processes file uploads; regsteres at backoffice; prepares for batch processes")
+
+    ContainerDb(filesystem, "File System", "File Server Cluster (NTFS)", "Stores Files for batch processing by backoffice")
+
+    ContainerDb(docstore, "NoSQL Data Store", "MongoDB 3.0.x", "Stores Files uploaded and reports for retrieval by admin user")
+}
+
+System_Ext(email, "E-mail")
+System_Ext(backoffice, "Backoffice")
+
+Rel(user, mobile_app, "Uses", "HTTPS")
+Rel(mobile_app, web_app, "Uses", "HTTPS")
+Rel(adminuser, web_app2, "Uses", "HTTPS")
+
+Rel(web_app, queue, "Post messages to ", "Post documents and other documents")
+
+Rel(queue, log, "log event", "Receives logs events")
+Rel(log, log_db, "log event", "Write log event")
+Rel(queue, processor, "Consumes event")
+
+Rel(processor, filesystem, "Writes to")
+Rel(processor, backoffice, "Stores info (not documents)")
+Rel(processor, docstore, "Stores documents")
+Rel(processor, queue, "log event", "Send logs events")
+Rel(processor, email, "Send email", "Send email to Claimant")
+Rel(processor, reportgen, "Generate Report")
+
+Rel(web_app2, docstore, "Get documents", "Allows acces to stored documents for Security Officer")
+Rel(web_app2, backoffice, "Get info", "Allows acces to Claimant info for Security Officer")
+
+Rel(backoffice, filesystem, "Batch doc retrieval", "Periodic processing (batch) of uploaded documents")
+
+Lay_R(mobile_app, web_app)
+
+
+'  Rel_U(updater, rel_db, "Reads from and writes data to", "SQL/JDBC, post 3306")
+'  Rel_U(updater, filesystem, "Writes to")
+'  Rel_U(updater, nosql, "Reads from and writes to", "MongoDB wire protocol, port 27017")
+
+'  Rel(updater, twitter, "Gets profile information and tweets from", "HTTPS")
+'  Rel(updater, github, "Gets information about public code repositories from", "HTTPS")
+'  Rel(updater, blogs, "Gets content using RSS and Atom feeds from", "HTTP")
+
+@enduml

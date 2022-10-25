@@ -1,0 +1,48 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component diagram for Social Security Use Case - Processor
+
+Container(queue, "Kafka Queue", "Apache Kafka 1.1", "Mesasge streaming queue, serving as main backbone for information processing")
+Container(reportgen, "JasperReports based Report Generator", "devon4j", "Reporting Service with with JasperReports 7.2.0")
+
+ContainerDb(filesystem, "File System", "File Server Cluster (NTFS)", "Stores Files for batch processing by backoffice")
+ContainerDb(docstore, "NoSQL Data Store", "MongoDB 3.0.x", "Stores Files uploaded and reports for retrieval by admin user")
+
+System_Ext(email, "E-mail")
+System_Ext(backoffice, "Backoffice")
+
+Container_Boundary(api, "Processor (Kafka consumer)") {
+    Component(consumer, "Event Controller", "Kafka Consumer", "Receives all incoming events from Kafka queue and dispatched to correct Service")
+    Component(fileupload, "File Upload Service", "Spring Bean ", "Processes Uploaded file(s)")
+    Component(report, "Report Service", "Spring Bean", "Generated report")
+    Component(docstorage1, "File Storage Service", "Spring Bean", "Responsable for data storage in various data stores")
+    Component(docstorage2, "File Batch preparation", "Spring Bean", "Storing data provisionally to prepara for batch processing")
+    Component(emailservice, "Email Service", "Spring Bean", "Responsable for sending Email")
+    Component(backofficeservice, "Backoffice Service", "Spring Bean", "Responsable for accesing Social Security Backoffice")
+
+    Rel(consumer, fileupload, "Uses")
+    Rel(consumer, report, "Uses")
+
+    Rel(report, docstorage1, "Stores Report")
+    Rel(report, emailservice, "Send Report by email")
+    Rel(report, backofficeservice, "Obtains info to Backoffice")
+
+    Rel(fileupload, docstorage1, "Stores File")
+    Rel(fileupload, docstorage2, "Prepares file storage to backoffice")
+    Rel(fileupload, backofficeservice, "Writes info to Backoffice")
+}
+
+Rel(queue, consumer, "Listens for and responds to events")
+Rel(report, reportgen, "Requests Report")
+Rel(docstorage1, docstore, "Saves File in File Storage in MongoDb")
+Rel(docstorage2, filesystem, "Saves File on File System")
+Rel(backofficeservice, backoffice, "Connects to BackOffice system")
+Rel(emailservice, email, "Send email through external email service")
+
+
+@enduml
