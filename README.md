@@ -10,7 +10,6 @@ This repository contains the material for the seminars and workshop "A Practical
 
 In this repository you will find the presentation *A Practical Guide to Collaborative Software Design.pdf*.
 
-Furthermore you will find in a few weeks the material which will be used in the workshops. 
 
 ## PlantUML examples
 
