@@ -8,7 +8,7 @@ This repository contains the material for the seminars and workshop "A Practical
 
 ## Files / references
 
-In this repository you will find the presentation *A Practical Guide to Collaborative Software Design - 2025.pdf*. As clear from the title, this pertains to the updated version (January 2025). Earlier version can be found in the history of this repository.  
+In this repository you will find the presentation [A Practical Guide to Collaborative Software Design - 2025.pdf](https://github.com/ivanderk/guide_collab_software_design/blob/main/A%20Practical%20Guide%20to%20Collaborative%20Software%20Design%20-%202025.pdf). As clear from the title, this pertains to the updated version (January 2025). Earlier version can be found in the history of this repository.  
 
 
 ## PlantUML examples
