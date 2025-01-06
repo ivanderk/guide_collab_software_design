@@ -15,11 +15,11 @@ In this repository you will find the presentation *A Practical Guide to Collabor
 
 The examples for the diagrams in the C4 Model can be found in the "src" directory. They are made with a [PlantUML extension](https://github.com/RicardoNiepel/C4-PlantUML). 
 
-Generated/exported images of the PlantUML diagrams can be found in the "images" directory.
-
 Check out [PlantUML](http://plantuml.com/) and how to use it in [Visual Studio Code](https://www.codeproject.com/Articles/1278703/UML-Made-Easy-with-PlantUML-VS-Code).
 
 Also included is the "Context Diagram" example in a [Draw.io / Diagrams.net](https://www.drawio.com/) format.
+
+Generated/exported images of the PlantUML and Draw-io diagrams can be found in the "images" directory.
 
 ## License
 
