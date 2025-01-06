@@ -8,14 +8,18 @@ This repository contains the material for the seminars and workshop "A Practical
 
 ## Files / references
 
-In this repository you will find the presentation *A Practical Guide to Collaborative Software Design.pdf*.
+In this repository you will find the presentation *A Practical Guide to Collaborative Software Design - 2025.pdf*. As clear from the title, this pertains to the updated version (January 2025). Earlier version can be found in the history of this repository.  
 
 
 ## PlantUML examples
 
 The examples for the diagrams in the C4 Model can be found in the "src" directory. They are made with a [PlantUML extension](https://github.com/RicardoNiepel/C4-PlantUML). 
 
+Generated/exported images of the PlantUML diagrams can be found in the "images" directory.
+
 Check out [PlantUML](http://plantuml.com/) and how to use it in [Visual Studio Code](https://www.codeproject.com/Articles/1278703/UML-Made-Easy-with-PlantUML-VS-Code).
+
+Also included is the "Context Diagram" example in a [Draw.io / Diagrams.net](https://www.drawio.com/) format.
 
 ## License
 
